@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "firebase": "^11.5.0"
+    "firebase": "^10.7.1"
   },
   "type": "module"
 }

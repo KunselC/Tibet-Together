@@ -1,99 +1,86 @@
-// Use Firebase from window object (attached in the HTML)
-// const db = window.db;
-// const { collection, addDoc, query, where, getDocs, serverTimestamp } = window.firestore;
+// Get Firebase from window object
+document.addEventListener("DOMContentLoaded", function () {
+  // Smooth scrolling for all waitlist buttons
+  document
+    .getElementById("nav-waitlist-button")
+    .addEventListener("click", function () {
+      document
+        .getElementById("waitlist-section")
+        .scrollIntoView({ behavior: "smooth" });
+    });
 
-// Smooth scrolling for all waitlist buttons
-document
-  .getElementById("nav-waitlist-button")
-  .addEventListener("click", function () {
-    document
-      .getElementById("waitlist-section")
-      .scrollIntoView({ behavior: "smooth" });
-  });
+  document
+    .getElementById("hero-waitlist-button")
+    .addEventListener("click", function () {
+      document
+        .getElementById("waitlist-section")
+        .scrollIntoView({ behavior: "smooth" });
+    });
 
-document
-  .getElementById("hero-waitlist-button")
-  .addEventListener("click", function () {
-    document
-      .getElementById("waitlist-section")
-      .scrollIntoView({ behavior: "smooth" });
-  });
+  document
+    .getElementById("footer-waitlist-button")
+    .addEventListener("click", function () {
+      document
+        .getElementById("waitlist-section")
+        .scrollIntoView({ behavior: "smooth" });
+    });
 
-document
-  .getElementById("footer-waitlist-button")
-  .addEventListener("click", function () {
-    document
-      .getElementById("waitlist-section")
-      .scrollIntoView({ behavior: "smooth" });
-  });
+  // Form submission handler with Firebase integration
+  document
+    .getElementById("email-form")
+    .addEventListener("submit", async function (event) {
+      event.preventDefault();
+      const email = document.getElementById("email").value;
+      const messageElement = document.getElementById("message");
 
-// Form submission handler with Firebase integration
-document
-  .getElementById("email-form")
-  .addEventListener("submit", async function (event) {
-    event.preventDefault();
-    const email = document.getElementById("email").value;
-    const messageElement = document.getElementById("message");
-
-    // Simple email validation
-    if (!validateEmail(email)) {
-      messageElement.textContent = "Please enter a valid email address.";
-      messageElement.style.color = "#ff6b6b";
-      return;
-    }
-
-    // Show loading state
-    messageElement.textContent = "Submitting...";
-    messageElement.style.color = "#ffd700";
-
-    try {
-      const db = window.db;
-      const { collection, addDoc, query, where, getDocs, serverTimestamp } =
-        window.firestore;
-
-      // Check if email already exists
-      const emailQuery = query(
-        collection(db, "waitlist"),
-        where("email", "==", email)
-      );
-      const querySnapshot = await getDocs(emailQuery);
-
-      if (!querySnapshot.empty) {
-        // Email already exists
-        messageElement.textContent = "This email is already on our waitlist.";
-        messageElement.style.color = "#ffa500";
+      // Simple email validation
+      if (!validateEmail(email)) {
+        messageElement.textContent = "Please enter a valid email address.";
+        messageElement.style.color = "#ff6b6b";
         return;
       }
 
-      // Add email to waitlist
-      await addDoc(collection(db, "waitlist"), {
-        email: email,
-        signupDate: serverTimestamp(),
-      });
+      // Show loading state
+      messageElement.textContent = "Submitting...";
+      messageElement.style.color = "#ffd700";
 
-      // Show success message
-      messageElement.textContent =
-        "Thank you for joining our waitlist! We'll be in touch soon.";
-      messageElement.style.color = "#4cd964";
-      document.getElementById("email").value = "";
-    } catch (error) {
-      console.error("Error adding email to waitlist:", error);
-      messageElement.textContent =
-        "There was an error joining the waitlist. Please try again.";
-      messageElement.style.color = "#ff6b6b";
-    }
-  });
+      try {
+        const db = window.db;
+        const { collection, addDoc, query, where, getDocs, serverTimestamp } =
+          window.firestore;
 
-// Email validation function
-function validateEmail(email) {
-  const re =
-    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-  return re.test(String(email).toLowerCase());
-}
+        // Check if email already exists
+        const emailQuery = query(
+          collection(db, "waitlist"),
+          where("email", "==", email)
+        );
+        const querySnapshot = await getDocs(emailQuery);
 
-// Fix animations by ensuring DOM is loaded before attaching animations
-document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM fully loaded - attaching animations");
+        if (!querySnapshot.empty) {
+          // Email already exists
+          messageElement.textContent = "This email is already on our waitlist.";
+          messageElement.style.color = "#ffa500";
+          return;
+        }
+
+        // Add email to waitlist
+        await addDoc(collection(db, "waitlist"), {
+          email: email,
+          signupDate: serverTimestamp(),
+        });
+
+        // Show success message
+        messageElement.textContent =
+          "Thank you for joining our waitlist! We'll be in touch soon.";
+        messageElement.style.color = "#4cd964";
+        document.getElementById("email").value = "";
+      } catch (error) {
+        console.error("Error adding email to waitlist:", error);
+        messageElement.textContent =
+          "There was an error joining the waitlist. Please try again.";
+        messageElement.style.color = "#ff6b6b";
+      }
+    });
 
   // Create an Intersection Observer
   const observer = new IntersectionObserver(
@@ -103,7 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (entry.isIntersecting) {
           // Add animated class
           entry.target.classList.add("animated");
-          console.log("Element animated:", entry.target);
           // Stop observing after animation is applied
           observer.unobserve(entry.target);
         }
@@ -119,13 +105,11 @@ document.addEventListener("DOMContentLoaded", function () {
   // Observe feature cards
   document.querySelectorAll(".feature-card").forEach((card) => {
     observer.observe(card);
-    console.log("Observing feature card");
   });
 
   // Observe mission points
   document.querySelectorAll(".mission-point").forEach((point) => {
     observer.observe(point);
-    console.log("Observing mission point");
   });
 
   // Add staggered delay to feature cards
@@ -150,7 +134,26 @@ document.addEventListener("DOMContentLoaded", function () {
     el.style.opacity = "1";
     el.style.visibility = "visible";
   });
+
+  // Form input animation
+  const emailInput = document.getElementById("email");
+  emailInput.addEventListener("focus", function () {
+    this.parentElement.classList.add("focused");
+  });
+
+  emailInput.addEventListener("blur", function () {
+    if (!this.value) {
+      this.parentElement.classList.remove("focused");
+    }
+  });
 });
+
+// Email validation function
+function validateEmail(email) {
+  const re =
+    /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(String(email).toLowerCase());
+}
 
 // Add a subtle parallax effect to the hero section
 window.addEventListener("scroll", function () {
@@ -161,17 +164,3 @@ window.addEventListener("scroll", function () {
     heroContent.style.transform = `translateY(${scrollValue * 0.2}px)`;
   }
 });
-
-// Form input animation
-const emailInput = document.getElementById("email");
-if (emailInput) {
-  emailInput.addEventListener("focus", function () {
-    this.parentElement.classList.add("focused");
-  });
-
-  emailInput.addEventListener("blur", function () {
-    if (!this.value) {
-      this.parentElement.classList.remove("focused");
-    }
-  });
-}
