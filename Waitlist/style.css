@@ -31,6 +31,20 @@ body {
   padding: 0 20px;
 }
 
+/* Ensure text is visible */
+p {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.hero-text,
+.feature-text,
+.mission-text,
+.waitlist-text {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
 /* Buttons */
 .btn {
   display: inline-block;
@@ -206,6 +220,11 @@ body {
   margin-right: 20px;
 }
 
+.mission-point p {
+  color: var(--dark);
+  opacity: 1 !important;
+}
+
 /* Waitlist Section */
 .waitlist {
   padding: 80px 0;
@@ -264,6 +283,17 @@ body {
 
 .copyright {
   color: var(--gray);
+}
+
+/* Animation fixes */
+.fade-in {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
+
+.show {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
 }
 
 /* Responsive Styles */

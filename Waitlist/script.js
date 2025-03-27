@@ -55,51 +55,52 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-// Add animations on scroll
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach((entry) => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("show");
-    }
-  });
-});
-
-// Observe all feature cards, mission points
-document
-  .querySelectorAll(".feature-card, .mission-point")
-  .forEach((element) => {
-    element.classList.add("fade-in");
-    observer.observe(element);
-  });
-
-// Add fade-in classes
+// Modified animation implementation
 document.addEventListener("DOMContentLoaded", function () {
-  document.querySelectorAll(".fade-in").forEach((el, index) => {
-    el.style.opacity = "0";
-    el.style.transform = "translateY(20px)";
-    el.style.transition = "opacity 0.5s ease, transform 0.5s ease";
-    el.style.transitionDelay = `${index * 0.1}s`;
+  // Immediately make all content visible
+  document.querySelectorAll(".feature-card, .mission-point").forEach((el) => {
+    el.style.opacity = "1";
+    el.style.visibility = "visible";
+    el.style.transform = "translateY(0)";
   });
 
-  // Add show class after a slight delay to trigger animations
-  setTimeout(() => {
-    document.querySelectorAll(".fade-in").forEach((el) => {
-      el.classList.add("show");
+  // Ensure all paragraph text is visible
+  document.querySelectorAll("p").forEach((el) => {
+    el.style.opacity = "1";
+    el.style.visibility = "visible";
+  });
+
+  // Add simple entrance animations
+  const addAnimations = () => {
+    const elements = document.querySelectorAll(".feature-card, .mission-point");
+
+    elements.forEach((element, index) => {
+      setTimeout(() => {
+        element.classList.add("animated");
+      }, index * 150);
     });
-  }, 100);
+  };
+
+  // Add animation class
+  setTimeout(addAnimations, 300);
 });
 
-// Add show class CSS
+// Add animation styles
 const style = document.createElement("style");
 style.textContent = `
-  .fade-in {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
-  }
-  .show {
+  .feature-card, .mission-point {
     opacity: 1;
+    visibility: visible;
+    transition: transform 0.5s ease;
+  }
+  
+  .feature-card.animated, .mission-point.animated {
     transform: translateY(0);
+  }
+  
+  p {
+    opacity: 1 !important;
+    visibility: visible !important;
   }
 `;
 document.head.appendChild(style);
