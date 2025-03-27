@@ -55,13 +55,46 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-// Modified animation implementation
+// Intersection Observer for scroll animations
 document.addEventListener("DOMContentLoaded", function () {
-  // Immediately make all content visible
-  document.querySelectorAll(".feature-card, .mission-point").forEach((el) => {
-    el.style.opacity = "1";
-    el.style.visibility = "visible";
-    el.style.transform = "translateY(0)";
+  // Create an Intersection Observer
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        // If element is visible
+        if (entry.isIntersecting) {
+          // Add animated class
+          entry.target.classList.add("animated");
+          // Stop observing after animation is applied
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      root: null, // viewport
+      threshold: 0.15, // trigger when 15% of the element is visible
+      rootMargin: "0px",
+    }
+  );
+
+  // Observe feature cards
+  document.querySelectorAll(".feature-card").forEach((card) => {
+    observer.observe(card);
+  });
+
+  // Observe mission points
+  document.querySelectorAll(".mission-point").forEach((point) => {
+    observer.observe(point);
+  });
+
+  // Add staggered delay to feature cards
+  document.querySelectorAll(".feature-card").forEach((card, index) => {
+    card.style.transitionDelay = `${index * 0.1}s`;
+  });
+
+  // Add staggered delay to mission points
+  document.querySelectorAll(".mission-point").forEach((point, index) => {
+    point.style.transitionDelay = `${index * 0.1}s`;
   });
 
   // Ensure all paragraph text is visible
@@ -69,38 +102,26 @@ document.addEventListener("DOMContentLoaded", function () {
     el.style.opacity = "1";
     el.style.visibility = "visible";
   });
-
-  // Add simple entrance animations
-  const addAnimations = () => {
-    const elements = document.querySelectorAll(".feature-card, .mission-point");
-
-    elements.forEach((element, index) => {
-      setTimeout(() => {
-        element.classList.add("animated");
-      }, index * 150);
-    });
-  };
-
-  // Add animation class
-  setTimeout(addAnimations, 300);
 });
 
-// Add animation styles
-const style = document.createElement("style");
-style.textContent = `
-  .feature-card, .mission-point {
-    opacity: 1;
-    visibility: visible;
-    transition: transform 0.5s ease;
+// Add a subtle parallax effect to the hero section
+window.addEventListener("scroll", function () {
+  const scrollValue = window.scrollY;
+  const heroContent = document.querySelector(".hero-content");
+
+  if (scrollValue < 600) {
+    heroContent.style.transform = `translateY(${scrollValue * 0.2}px)`;
   }
-  
-  .feature-card.animated, .mission-point.animated {
-    transform: translateY(0);
+});
+
+// Form input animation
+const emailInput = document.getElementById("email");
+emailInput.addEventListener("focus", function () {
+  this.parentElement.classList.add("focused");
+});
+
+emailInput.addEventListener("blur", function () {
+  if (!this.value) {
+    this.parentElement.classList.remove("focused");
   }
-  
-  p {
-    opacity: 1 !important;
-    visibility: visible !important;
-  }
-`;
-document.head.appendChild(style);
+});

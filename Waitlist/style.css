@@ -14,6 +14,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s, transform 0.3s;
 }
 
 body {
@@ -22,6 +23,10 @@ body {
   line-height: 1.6;
   color: var(--dark);
   background-color: var(--light);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 .container {
@@ -68,6 +73,7 @@ p {
   background-color: var(--primary-dark);
   transform: translateY(-2px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  animation: pulse 0.5s ease-in-out;
 }
 
 .btn-outline {
@@ -89,6 +95,7 @@ p {
   position: sticky;
   top: 0;
   z-index: 1000;
+  animation: fadeIn 0.6s ease-out;
 }
 
 .navbar .container {
@@ -101,6 +108,23 @@ p {
   font-size: 1.5rem;
   font-weight: 600;
   color: var(--primary);
+  position: relative;
+  overflow: hidden;
+}
+
+.logo h1:after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background-color: var(--primary);
+  transition: width 0.3s ease;
+}
+
+.logo h1:hover:after {
+  width: 100%;
 }
 
 /* Hero Section */
@@ -121,6 +145,7 @@ p {
   font-weight: 700;
   margin-bottom: 20px;
   line-height: 1.2;
+  animation: slideInUp 0.8s ease-out forwards;
 }
 
 .hero span {
@@ -131,6 +156,15 @@ p {
   font-size: 1.2rem;
   margin-bottom: 30px;
   color: var(--gray-light);
+  animation: slideInUp 0.8s ease-out 0.2s forwards;
+  opacity: 0;
+  animation-fill-mode: forwards;
+}
+
+.hero button {
+  animation: slideInUp 0.8s ease-out 0.4s forwards;
+  opacity: 0;
+  animation-fill-mode: forwards;
 }
 
 /* Features Section */
@@ -157,13 +191,20 @@ p {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: var(--transition);
+  transition: all 0.6s ease-out;
   text-align: center;
+  opacity: 0;
+  transform: translateY(20px);
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card.animated {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .feature-card .icon {
@@ -212,6 +253,14 @@ p {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease-out;
+}
+
+.mission-point.animated {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .mission-point .icon {
@@ -251,6 +300,12 @@ p {
 .form-group {
   display: flex;
   gap: 10px;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.form-group.focused {
+  transform: scale(1.02);
 }
 
 #email {
@@ -260,6 +315,11 @@ p {
   border-radius: 6px;
   font-size: 1rem;
   outline: none;
+  transition: all 0.3s ease;
+}
+
+#email:focus {
+  box-shadow: 0 0 8px rgba(176, 65, 62, 0.5);
 }
 
 .message {
@@ -285,15 +345,59 @@ p {
   color: var(--gray);
 }
 
-/* Animation fixes */
-.fade-in {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+/* Animation keyframes */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-.show {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
+@keyframes slideInUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(30px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 /* Responsive Styles */
