@@ -1,13 +1,6 @@
-// Import Firebase modules
-import { db } from "./firebase-config.js";
-import {
-  collection,
-  addDoc,
-  query,
-  where,
-  getDocs,
-  serverTimestamp,
-} from "firebase/firestore";
+// Use Firebase from window object (attached in the HTML)
+// const db = window.db;
+// const { collection, addDoc, query, where, getDocs, serverTimestamp } = window.firestore;
 
 // Smooth scrolling for all waitlist buttons
 document
@@ -54,6 +47,10 @@ document
     messageElement.style.color = "#ffd700";
 
     try {
+      const db = window.db;
+      const { collection, addDoc, query, where, getDocs, serverTimestamp } =
+        window.firestore;
+
       // Check if email already exists
       const emailQuery = query(
         collection(db, "waitlist"),
@@ -94,8 +91,10 @@ function validateEmail(email) {
   return re.test(String(email).toLowerCase());
 }
 
-// Intersection Observer for scroll animations
+// Fix animations by ensuring DOM is loaded before attaching animations
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM fully loaded - attaching animations");
+
   // Create an Intersection Observer
   const observer = new IntersectionObserver(
     (entries) => {
@@ -104,6 +103,7 @@ document.addEventListener("DOMContentLoaded", function () {
         if (entry.isIntersecting) {
           // Add animated class
           entry.target.classList.add("animated");
+          console.log("Element animated:", entry.target);
           // Stop observing after animation is applied
           observer.unobserve(entry.target);
         }
@@ -119,11 +119,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Observe feature cards
   document.querySelectorAll(".feature-card").forEach((card) => {
     observer.observe(card);
+    console.log("Observing feature card");
   });
 
   // Observe mission points
   document.querySelectorAll(".mission-point").forEach((point) => {
     observer.observe(point);
+    console.log("Observing mission point");
   });
 
   // Add staggered delay to feature cards
@@ -134,6 +136,13 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add staggered delay to mission points
   document.querySelectorAll(".mission-point").forEach((point, index) => {
     point.style.transitionDelay = `${index * 0.1}s`;
+  });
+
+  // Force all elements to be visible
+  document.querySelectorAll(".feature-card, .mission-point").forEach((el) => {
+    el.style.opacity = "1";
+    el.style.visibility = "visible";
+    el.style.transform = "translateY(0)";
   });
 
   // Ensure all paragraph text is visible
@@ -148,19 +157,21 @@ window.addEventListener("scroll", function () {
   const scrollValue = window.scrollY;
   const heroContent = document.querySelector(".hero-content");
 
-  if (scrollValue < 600) {
+  if (scrollValue < 600 && heroContent) {
     heroContent.style.transform = `translateY(${scrollValue * 0.2}px)`;
   }
 });
 
 // Form input animation
 const emailInput = document.getElementById("email");
-emailInput.addEventListener("focus", function () {
-  this.parentElement.classList.add("focused");
-});
+if (emailInput) {
+  emailInput.addEventListener("focus", function () {
+    this.parentElement.classList.add("focused");
+  });
 
-emailInput.addEventListener("blur", function () {
-  if (!this.value) {
-    this.parentElement.classList.remove("focused");
-  }
-});
+  emailInput.addEventListener("blur", function () {
+    if (!this.value) {
+      this.parentElement.classList.remove("focused");
+    }
+  });
+}

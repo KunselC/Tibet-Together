@@ -1,4 +1,3 @@
-.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,131 +18,16 @@
     />
   </head>
   <body>
-    <nav class="navbar">
-      <div class="container">
-        <div class="logo">
-          <h1>Tibet Together</h1>
-        </div>
-        <button id="nav-waitlist-button" class="btn btn-primary">
-          Join Waitlist
-        </button>
-      </div>
-    </nav>
+    <!-- Keep your existing HTML content here -->
 
-    <section class="hero">
-      <div class="container">
-        <div class="hero-content">
-          <h1>Preserving and Amplifying <span>Tibetan Voices</span></h1>
-          <p class="hero-text">
-            A digital platform dedicated to collecting Tibetan media, fostering
-            community discussions, and preserving our rich cultural heritage.
-          </p>
-          <button id="hero-waitlist-button" class="btn btn-primary">
-            Join Our Waitlist
-          </button>
-        </div>
-      </div>
-    </section>
+    <!-- Change to include Firebase SDK explicitly first -->
+    <script type="module">
+      // Import the functions you need from the SDKs you need
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+      import { getFirestore } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    </script>
 
-    <section class="features">
-      <div class="container">
-        <h2>What We're Building</h2>
-        <div class="feature-grid">
-          <div class="feature-card">
-            <div class="icon"><i class="fas fa-photo-video"></i></div>
-            <h3>Media Aggregation</h3>
-            <p class="feature-text">
-              Collecting videos and articles from various sources, with
-              filtering and search capabilities.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="icon"><i class="fas fa-comments"></i></div>
-            <h3>Community Forum</h3>
-            <p class="feature-text">
-              A space for discussions, community building, and meaningful
-              connections.
-            </p>
-          </div>
-          <div class="feature-card">
-            <div class="icon"><i class="fas fa-search"></i></div>
-            <h3>Search Functionality</h3>
-            <p class="feature-text">
-              A robust search bar to find content across all media types.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="mission">
-      <div class="container">
-        <div class="mission-content">
-          <h2>Our Mission</h2>
-          <div class="mission-points">
-            <div class="mission-point">
-              <div class="icon"><i class="fas fa-globe-asia"></i></div>
-              <p class="mission-text">
-                Provide a centralized platform for Tibetan media and cultural
-                resources
-              </p>
-            </div>
-            <div class="mission-point">
-              <div class="icon"><i class="fas fa-users"></i></div>
-              <p class="mission-text">
-                Empower the Tibetan community and raise awareness about
-                important issues
-              </p>
-            </div>
-            <div class="mission-point">
-              <div class="icon"><i class="fas fa-heart"></i></div>
-              <p class="mission-text">
-                Preserve and promote Tibetan culture for future generations
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="waitlist" id="waitlist-section">
-      <div class="container">
-        <div class="waitlist-content">
-          <h2>Join the Waitlist</h2>
-          <p class="waitlist-text">
-            Be the first to know when we launch. Enter your email to get
-            progress updates and notification of when we launch.
-          </p>
-          <form id="email-form">
-            <div class="form-group">
-              <input
-                type="email"
-                id="email"
-                placeholder="Your email address"
-                required
-              />
-              <button type="submit" class="btn btn-primary">Subscribe</button>
-            </div>
-            <div id="message" class="message"></div>
-          </form>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <div class="container">
-        <div class="copyright">
-          <p>&copy; 2025 Tibet Together. All rights reserved.</p>
-        </div>
-        <div class="footer-cta">
-          <button id="footer-waitlist-button" class="btn btn-outline">
-            Join Waitlist
-          </button>
-        </div>
-      </div>
-    </footer>
-
-    <!-- Firebase SDK -->
+    <!-- Your script -->
     <script type="module" src="script.js"></script>
   </body>
 </html>

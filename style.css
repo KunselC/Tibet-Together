@@ -447,3 +447,30 @@ p {
     margin-bottom: 10px;
   }
 }
+
+/* Force immediate visibility of animated elements */
+.feature-card,
+.mission-point {
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: translateY(0) !important;
+}
+
+/* Override any animations that might hide text */
+p,
+h1,
+h2,
+h3,
+.hero-text,
+.feature-text,
+.mission-text,
+.waitlist-text {
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* Added for immediate animation */
+.animated {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+}
