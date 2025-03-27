@@ -1,5 +1,6 @@
-// Get Firebase from window object
 document.addEventListener("DOMContentLoaded", function () {
+  console.log("DOM content loaded");
+
   // Smooth scrolling for all waitlist buttons
   document
     .getElementById("nav-waitlist-button")
@@ -28,8 +29,10 @@ document.addEventListener("DOMContentLoaded", function () {
   // Form submission handler with Firebase integration
   document
     .getElementById("email-form")
-    .addEventListener("submit", async function (event) {
+    .addEventListener("submit", function (event) {
       event.preventDefault();
+      console.log("Form submitted");
+
       const email = document.getElementById("email").value;
       const messageElement = document.getElementById("message");
 
@@ -44,42 +47,50 @@ document.addEventListener("DOMContentLoaded", function () {
       messageElement.textContent = "Submitting...";
       messageElement.style.color = "#ffd700";
 
-      try {
-        const db = window.db;
-        const { collection, addDoc, query, where, getDocs, serverTimestamp } =
-          window.firestore;
+      console.log("Checking for existing email:", email);
 
-        // Check if email already exists
-        const emailQuery = query(
-          collection(db, "waitlist"),
-          where("email", "==", email)
-        );
-        const querySnapshot = await getDocs(emailQuery);
+      // Check if email already exists in waitlist collection
+      db.collection("waitlist")
+        .where("email", "==", email)
+        .get()
+        .then(function (querySnapshot) {
+          if (!querySnapshot.empty) {
+            // Email already exists
+            console.log("Email already exists");
+            messageElement.textContent =
+              "This email is already on our waitlist.";
+            messageElement.style.color = "#ffa500";
+            return Promise.reject("Email already exists");
+          }
 
-        if (!querySnapshot.empty) {
-          // Email already exists
-          messageElement.textContent = "This email is already on our waitlist.";
-          messageElement.style.color = "#ffa500";
-          return;
-        }
+          console.log("Adding new email to waitlist");
 
-        // Add email to waitlist
-        await addDoc(collection(db, "waitlist"), {
-          email: email,
-          signupDate: serverTimestamp(),
+          // Add email to waitlist
+          return db.collection("waitlist").add({
+            email: email,
+            signupDate: firebase.firestore.FieldValue.serverTimestamp(),
+          });
+        })
+        .then(function () {
+          // Success
+          console.log("Email added successfully");
+          messageElement.textContent =
+            "Thank you for joining our waitlist! We'll be in touch soon.";
+          messageElement.style.color = "#4cd964";
+          document.getElementById("email").value = "";
+        })
+        .catch(function (error) {
+          // If it's our custom error for duplicate email, don't show error message
+          if (error === "Email already exists") {
+            return;
+          }
+
+          // Error
+          console.error("Error adding document: ", error);
+          messageElement.textContent =
+            "There was an error joining the waitlist. Please try again.";
+          messageElement.style.color = "#ff6b6b";
         });
-
-        // Show success message
-        messageElement.textContent =
-          "Thank you for joining our waitlist! We'll be in touch soon.";
-        messageElement.style.color = "#4cd964";
-        document.getElementById("email").value = "";
-      } catch (error) {
-        console.error("Error adding email to waitlist:", error);
-        messageElement.textContent =
-          "There was an error joining the waitlist. Please try again.";
-        messageElement.style.color = "#ff6b6b";
-      }
     });
 
   // Create an Intersection Observer
@@ -120,19 +131,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // Add staggered delay to mission points
   document.querySelectorAll(".mission-point").forEach((point, index) => {
     point.style.transitionDelay = `${index * 0.1}s`;
-  });
-
-  // Force all elements to be visible
-  document.querySelectorAll(".feature-card, .mission-point").forEach((el) => {
-    el.style.opacity = "1";
-    el.style.visibility = "visible";
-    el.style.transform = "translateY(0)";
-  });
-
-  // Ensure all paragraph text is visible
-  document.querySelectorAll("p").forEach((el) => {
-    el.style.opacity = "1";
-    el.style.visibility = "visible";
   });
 
   // Form input animation

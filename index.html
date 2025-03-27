@@ -142,20 +142,12 @@
       </div>
     </footer>
 
-    <!-- Firebase SDK -->
-    <script type="module">
-      // Import the functions you need from the SDKs you need
-      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-      import {
-        getFirestore,
-        collection,
-        addDoc,
-        query,
-        where,
-        getDocs,
-        serverTimestamp,
-      } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    <!-- Import Firebase directly using CDN -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+    <!-- Initialize Firebase -->
+    <script>
       // Your web app's Firebase configuration
       const firebaseConfig = {
         apiKey: "AIzaSyCcTaujfClv1_y9a8CyZYlio7sx5OeYlX0",
@@ -167,21 +159,15 @@
       };
 
       // Initialize Firebase
-      const app = initializeApp(firebaseConfig);
-      const db = getFirestore(app);
+      firebase.initializeApp(firebaseConfig);
 
-      // Make Firebase available globally
-      window.db = db;
-      window.firestore = {
-        collection,
-        addDoc,
-        query,
-        where,
-        getDocs,
-        serverTimestamp,
-      };
+      // Get a reference to the database service
+      const db = firebase.firestore();
+
+      console.log("Firebase initialized successfully");
     </script>
 
+    <!-- Your custom script -->
     <script src="script.js"></script>
   </body>
 </html>
