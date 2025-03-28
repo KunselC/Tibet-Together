@@ -2,8 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
   // Initialize AOS animation library
   AOS.init({
     duration: 800,
-    easing: "ease-in-out",
+    easing: "ease-out-cubic",
     once: true,
+    offset: 50,
   });
 
   // Smooth scrolling for all waitlist buttons
@@ -76,6 +77,16 @@ document.addEventListener("DOMContentLoaded", function () {
             "Thank you for joining our waitlist! We'll be in touch soon.";
           messageElement.style.color = "#4cd964";
           document.getElementById("email").value = "";
+
+          // Update the local counter for immediate feedback
+          if (typeof updateLocalCounterAfterSignup === "function") {
+            updateLocalCounterAfterSignup();
+          } else {
+            // Fallback to server refresh if local update not available
+            if (typeof updateWaitlistCounter === "function") {
+              setTimeout(updateWaitlistCounter, 1000);
+            }
+          }
         })
         .catch(function (error) {
           // If it's our custom error for duplicate email, don't show error message
@@ -102,6 +113,51 @@ document.addEventListener("DOMContentLoaded", function () {
       this.parentElement.classList.remove("focused");
     }
   });
+
+  // Count animation for waitlist members
+  function animateCounter(element, target) {
+    let current = 0;
+    const duration = 2000;
+    const step = 25; // ms
+    const increment = target / (duration / step);
+
+    const counter = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        current = target;
+        clearInterval(counter);
+      }
+      element.textContent = Math.floor(current);
+    }, step);
+  }
+
+  // Start the animation when the element is in view
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting && entry.target.classList.contains("counter")) {
+        animateCounter(
+          entry.target,
+          parseInt(entry.target.getAttribute("data-target"))
+        );
+        observer.unobserve(entry.target);
+      }
+    });
+  });
+
+  // Function to observe counter elements (exposed globally)
+  window.observeCounters = function () {
+    document.querySelectorAll(".counter").forEach((counter) => {
+      observer.observe(counter);
+    });
+  };
+
+  // Observe counter elements initially
+  observeCounters();
+
+  // Update waitlist counter when page loads
+  if (typeof updateWaitlistCounter === "function") {
+    updateWaitlistCounter();
+  }
 });
 
 // Email validation function

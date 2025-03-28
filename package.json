@@ -1,5 +1,18 @@
 {
+  "name": "tibet-together",
+  "version": "1.0.0",
+  "description": "The digital home for Tibetan voices",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "serve"
+  },
   "dependencies": {
     "firebase": "^10.7.1"
-  }
+  },
+  "devDependencies": {
+    "serve": "^14.2.0"
+  },
+  "author": "Kunsel Chodak",
+  "license": "MIT"
 }
