@@ -1,5 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
-  console.log("DOM content loaded");
+  // Initialize AOS animation library
+  AOS.init({
+    duration: 800,
+    easing: "ease-in-out",
+    once: true,
+  });
 
   // Smooth scrolling for all waitlist buttons
   document
@@ -31,7 +36,6 @@ document.addEventListener("DOMContentLoaded", function () {
     .getElementById("email-form")
     .addEventListener("submit", function (event) {
       event.preventDefault();
-      console.log("Form submitted");
 
       const email = document.getElementById("email").value;
       const messageElement = document.getElementById("message");
@@ -47,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
       messageElement.textContent = "Submitting...";
       messageElement.style.color = "#ffd700";
 
-      console.log("Checking for existing email:", email);
-
       // Check if email already exists in waitlist collection
       db.collection("waitlist")
         .where("email", "==", email)
@@ -56,14 +58,11 @@ document.addEventListener("DOMContentLoaded", function () {
         .then(function (querySnapshot) {
           if (!querySnapshot.empty) {
             // Email already exists
-            console.log("Email already exists");
             messageElement.textContent =
               "This email is already on our waitlist.";
             messageElement.style.color = "#ffa500";
             return Promise.reject("Email already exists");
           }
-
-          console.log("Adding new email to waitlist");
 
           // Add email to waitlist
           return db.collection("waitlist").add({
@@ -73,7 +72,6 @@ document.addEventListener("DOMContentLoaded", function () {
         })
         .then(function () {
           // Success
-          console.log("Email added successfully");
           messageElement.textContent =
             "Thank you for joining our waitlist! We'll be in touch soon.";
           messageElement.style.color = "#4cd964";
@@ -92,46 +90,6 @@ document.addEventListener("DOMContentLoaded", function () {
           messageElement.style.color = "#ff6b6b";
         });
     });
-
-  // Create an Intersection Observer
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        // If element is visible
-        if (entry.isIntersecting) {
-          // Add animated class
-          entry.target.classList.add("animated");
-          // Stop observing after animation is applied
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    {
-      root: null, // viewport
-      threshold: 0.15, // trigger when 15% of the element is visible
-      rootMargin: "0px",
-    }
-  );
-
-  // Observe feature cards
-  document.querySelectorAll(".feature-card").forEach((card) => {
-    observer.observe(card);
-  });
-
-  // Observe mission points
-  document.querySelectorAll(".mission-point").forEach((point) => {
-    observer.observe(point);
-  });
-
-  // Add staggered delay to feature cards
-  document.querySelectorAll(".feature-card").forEach((card, index) => {
-    card.style.transitionDelay = `${index * 0.1}s`;
-  });
-
-  // Add staggered delay to mission points
-  document.querySelectorAll(".mission-point").forEach((point, index) => {
-    point.style.transitionDelay = `${index * 0.1}s`;
-  });
 
   // Form input animation
   const emailInput = document.getElementById("email");
@@ -160,5 +118,13 @@ window.addEventListener("scroll", function () {
 
   if (scrollValue < 600 && heroContent) {
     heroContent.style.transform = `translateY(${scrollValue * 0.2}px)`;
+  }
+});
+
+// Set current year in footer
+document.addEventListener("DOMContentLoaded", function () {
+  const yearElement = document.getElementById("current-year");
+  if (yearElement) {
+    yearElement.textContent = new Date().getFullYear();
   }
 });

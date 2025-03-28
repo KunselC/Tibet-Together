@@ -16,6 +16,8 @@
       href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
       rel="stylesheet"
     />
+    <!-- Add AOS animation library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
   </head>
   <body>
     <nav class="navbar">
@@ -32,12 +34,26 @@
     <section class="hero">
       <div class="container">
         <div class="hero-content">
-          <h1>Preserving and Amplifying <span>Tibetan Voices</span></h1>
-          <p class="hero-text">
-            A digital platform dedicated to collecting Tibetan media, fostering
-            community discussions, and preserving our rich cultural heritage.
+          <h1 data-aos="fade-up" data-aos-duration="800">
+            Preserving and Amplifying <span>Tibetan Voices</span>
+          </h1>
+          <p
+            class="hero-text"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="200"
+          >
+            Tibet Together is building the #1 collection of Tibetan media,
+            fostering community discussions and preserving our rich cultural
+            heritage.
           </p>
-          <button id="hero-waitlist-button" class="btn btn-primary">
+          <button
+            id="hero-waitlist-button"
+            class="btn btn-primary"
+            data-aos="fade-up"
+            data-aos-duration="800"
+            data-aos-delay="400"
+          >
             Join Our Waitlist
           </button>
         </div>
@@ -46,9 +62,9 @@
 
     <section class="features">
       <div class="container">
-        <h2>What We're Building</h2>
+        <h2 data-aos="fade-up">What We're Building</h2>
         <div class="feature-grid">
-          <div class="feature-card">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
             <div class="icon"><i class="fas fa-photo-video"></i></div>
             <h3>Media Aggregation</h3>
             <p class="feature-text">
@@ -56,7 +72,7 @@
               filtering and search capabilities.
             </p>
           </div>
-          <div class="feature-card">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
             <div class="icon"><i class="fas fa-comments"></i></div>
             <h3>Community Forum</h3>
             <p class="feature-text">
@@ -64,7 +80,7 @@
               connections.
             </p>
           </div>
-          <div class="feature-card">
+          <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
             <div class="icon"><i class="fas fa-search"></i></div>
             <h3>Search Functionality</h3>
             <p class="feature-text">
@@ -78,23 +94,23 @@
     <section class="mission">
       <div class="container">
         <div class="mission-content">
-          <h2>Our Mission</h2>
+          <h2 data-aos="fade-up">Our Mission</h2>
           <div class="mission-points">
-            <div class="mission-point">
+            <div class="mission-point" data-aos="fade-up" data-aos-delay="100">
               <div class="icon"><i class="fas fa-globe-asia"></i></div>
               <p class="mission-text">
                 Provide a centralized platform for Tibetan media and cultural
                 resources
               </p>
             </div>
-            <div class="mission-point">
+            <div class="mission-point" data-aos="fade-up" data-aos-delay="200">
               <div class="icon"><i class="fas fa-users"></i></div>
               <p class="mission-text">
                 Empower the Tibetan community and raise awareness about
                 important issues
               </p>
             </div>
-            <div class="mission-point">
+            <div class="mission-point" data-aos="fade-up" data-aos-delay="300">
               <div class="icon"><i class="fas fa-heart"></i></div>
               <p class="mission-text">
                 Preserve and promote Tibetan culture for future generations
@@ -108,12 +124,12 @@
     <section class="waitlist" id="waitlist-section">
       <div class="container">
         <div class="waitlist-content">
-          <h2>Join the Waitlist</h2>
-          <p class="waitlist-text">
+          <h2 data-aos="fade-up">Join the Waitlist</h2>
+          <p class="waitlist-text" data-aos="fade-up" data-aos-delay="100">
             Be the first to know when we launch. Enter your email to get
             progress updates and notification of when we launch.
           </p>
-          <form id="email-form">
+          <form id="email-form" data-aos="fade-up" data-aos-delay="200">
             <div class="form-group">
               <input
                 type="email"
@@ -132,7 +148,10 @@
     <footer class="footer">
       <div class="container">
         <div class="copyright">
-          <p>&copy; 2025 Tibet Together. All rights reserved.</p>
+          <p>
+            &copy; <span id="current-year">2025</span> Tibet Together. All
+            rights reserved.
+          </p>
         </div>
         <div class="footer-cta">
           <button id="footer-waitlist-button" class="btn btn-outline">
@@ -142,32 +161,15 @@
       </div>
     </footer>
 
-    <!-- Import Firebase directly using CDN -->
+    <!-- Import Firebase -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-    <!-- Initialize Firebase -->
-    <script>
-      // Your web app's Firebase configuration
-      const firebaseConfig = {
-        apiKey: "AIzaSyCcTaujfClv1_y9a8CyZYlio7sx5OeYlX0",
-        authDomain: "tibet-together.firebaseapp.com",
-        projectId: "tibet-together",
-        storageBucket: "tibet-together.firebasestorage.app",
-        messagingSenderId: "1044233534349",
-        appId: "1:1044233534349:web:d71f01eed242d31db79bc4",
-      };
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 
-      // Initialize Firebase
-      firebase.initializeApp(firebaseConfig);
-
-      // Get a reference to the database service
-      const db = firebase.firestore();
-
-      console.log("Firebase initialized successfully");
-    </script>
-
-    <!-- Your custom script -->
+    <!-- Custom Scripts -->
+    <script src="firebase-init.js"></script>
     <script src="script.js"></script>
   </body>
 </html>

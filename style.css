@@ -36,20 +36,6 @@ html {
   padding: 0 20px;
 }
 
-/* Ensure text is visible */
-p {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-.hero-text,
-.feature-text,
-.mission-text,
-.waitlist-text {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
 /* Buttons */
 .btn {
   display: inline-block;
@@ -67,19 +53,31 @@ p {
 .btn-primary {
   background-color: var(--primary);
   color: white;
+  transition: transform 0.3s ease, background-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .btn-primary:hover {
   background-color: var(--primary-dark);
-  transform: translateY(-2px);
+  transform: translateY(-3px);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-  animation: pulse 0.5s ease-in-out;
+}
+
+.navbar .btn-primary {
+  background-color: var(--primary);
+  color: white;
+}
+
+.navbar .btn-primary:hover {
+  background-color: var(--primary-dark);
+  color: white;
 }
 
 .btn-outline {
   background-color: transparent;
   border: 2px solid var(--primary);
   color: var(--primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .btn-outline:hover {
@@ -132,6 +130,7 @@ p {
   padding: 100px 0;
   background-color: var(--dark);
   color: white;
+  overflow: hidden;
 }
 
 .hero-content {
@@ -145,7 +144,6 @@ p {
   font-weight: 700;
   margin-bottom: 20px;
   line-height: 1.2;
-  animation: slideInUp 0.8s ease-out forwards;
 }
 
 .hero span {
@@ -156,15 +154,6 @@ p {
   font-size: 1.2rem;
   margin-bottom: 30px;
   color: var(--gray-light);
-  animation: slideInUp 0.8s ease-out 0.2s forwards;
-  opacity: 0;
-  animation-fill-mode: forwards;
-}
-
-.hero button {
-  animation: slideInUp 0.8s ease-out 0.4s forwards;
-  opacity: 0;
-  animation-fill-mode: forwards;
 }
 
 /* Features Section */
@@ -191,20 +180,13 @@ p {
   padding: 30px;
   border-radius: 10px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-  transition: all 0.6s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
   text-align: center;
-  opacity: 0;
-  transform: translateY(20px);
 }
 
 .feature-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-}
-
-.feature-card.animated {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .feature-card .icon {
@@ -253,14 +235,12 @@ p {
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.6s ease-out;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.mission-point.animated {
-  opacity: 1;
-  transform: translateY(0);
+.mission-point:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
 }
 
 .mission-point .icon {
@@ -271,7 +251,6 @@ p {
 
 .mission-point p {
   color: var(--dark);
-  opacity: 1 !important;
 }
 
 /* Waitlist Section */
@@ -366,40 +345,6 @@ p {
   }
 }
 
-@keyframes slideInLeft {
-  from {
-    transform: translateX(-30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slideInRight {
-  from {
-    transform: translateX(30px);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes pulse {
-  0% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
-
 /* Responsive Styles */
 @media (max-width: 768px) {
   .hero h1 {
@@ -446,31 +391,4 @@ p {
     margin-right: 0;
     margin-bottom: 10px;
   }
-}
-
-/* Force immediate visibility of animated elements */
-.feature-card,
-.mission-point {
-  opacity: 1 !important;
-  visibility: visible !important;
-  transform: translateY(0) !important;
-}
-
-/* Override any animations that might hide text */
-p,
-h1,
-h2,
-h3,
-.hero-text,
-.feature-text,
-.mission-text,
-.waitlist-text {
-  opacity: 1 !important;
-  visibility: visible !important;
-}
-
-/* Added for immediate animation */
-.animated {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
 }
